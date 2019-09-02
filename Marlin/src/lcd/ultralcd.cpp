@@ -972,7 +972,8 @@ void MarlinUI::update() {
           + 3
         #endif
       ;
-      max_display_update_time--;
+      if(max_display_update_time != 0)
+        max_display_update_time--;
       refresh(LCDVIEW_REDRAW_NOW);
     }
 
