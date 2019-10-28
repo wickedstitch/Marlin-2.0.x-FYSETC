@@ -1489,6 +1489,18 @@ void homeaxis(const AxisEnum axis) {
     if (axis == Z_AXIS && bltouch.deploy()) return; // The initial DEPLOY
   #endif
 
+  #if ENABLED(SENSORLESS_HOMING)
+    #if ENABLED(X_STALL_SENSITIVITY)
+        if (axis == X_AXIS)
+          do_homing_move(axis, 3.0f * -axis_home_dir);
+    #endif
+
+    #if ENABLED(Y_STALL_SENSITIVITY)
+        if (axis == Y_AXIS)
+          do_homing_move(axis, 3.0f * -axis_home_dir);
+    #endif
+  #endif
+
   do_homing_move(axis, 1.5f * max_length(
     #if ENABLED(DELTA)
       Z_AXIS
