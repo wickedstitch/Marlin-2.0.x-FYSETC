@@ -780,6 +780,8 @@ void GcodeSuite::process_parsed_command(const bool no_ok/*=false*/) {
         #if USE_SENSORLESS
           case 914: M914(); break;                                // M914: Set StallGuard sensitivity.
         #endif
+        case 915: M915(); break;                                  // M915: Set StallGuard sensitivity.
+        case 905: M905(); break;                                  // M915: Set StallGuard sensitivity.
       #endif
 
       #if HAS_DRIVER(L6470)

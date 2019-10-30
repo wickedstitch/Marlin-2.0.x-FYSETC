@@ -345,6 +345,14 @@ void tmc_print_current(TMC &st) {
   }
 #endif
 
+template<typename TMC>
+void tmc_print_microsteps(TMC &st) {
+  st.printLabel();
+  SERIAL_ECHOPGM(" microsteps: ");
+  SERIAL_PRINTLN(st.microsteps(), DEC);
+}
+
+
 void monitor_tmc_driver();
 void test_tmc_connection(const bool test_x, const bool test_y, const bool test_z, const bool test_e);
 

@@ -894,6 +894,8 @@ private:
     #if USE_SENSORLESS
       static void M914();
     #endif
+    static void M915();
+    static void M905();
   #endif
 
   #if HAS_DRIVER(L6470)

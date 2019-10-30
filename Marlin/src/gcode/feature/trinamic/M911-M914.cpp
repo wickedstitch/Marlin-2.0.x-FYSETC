@@ -29,6 +29,7 @@
 #include "../../../module/stepper/indirection.h"
 #include "../../../module/planner.h"
 #include "../../queue.h"
+#include "../../../libs/hex_print_routines.h"
 
 #if ENABLED(MONITOR_DRIVER_STATUS)
 
@@ -383,5 +384,90 @@
     }
   }
 #endif // USE_SENSORLESS
+
+  void GcodeSuite::M915() {
+
+    LOOP_XYZE(i) if (parser.seen(axis_codes[i])) {
+      const int16_t value = parser.value_int();
+      if(value) {
+        switch (i) {
+          case X_AXIS:
+            stepperX.microsteps(value);
+            break;
+          case Y_AXIS:
+            stepperY.microsteps(value);
+            break;
+          case Z_AXIS:
+            stepperZ.microsteps(value);
+            break;
+          case E0_AXIS:
+            stepperE0.microsteps(value);
+            break;
+        }
+      }
+      else {
+        switch (i) {
+        case X_AXIS:
+          //tmc_print_microsteps(stepperX);
+          print_hex_long(stepperX.CHOPCONF(), ':');
+          break;
+        case Y_AXIS:
+          //tmc_print_microsteps(stepperY);
+          print_hex_long(stepperY.CHOPCONF(), ':');
+          break;
+        case Z_AXIS:
+          //tmc_print_microsteps(stepperZ);
+          print_hex_long(stepperZ.CHOPCONF(), ':');
+          break;
+        case E0_AXIS:
+          //tmc_print_microsteps(stepperE0);
+          print_hex_long(stepperE0.CHOPCONF(), ':');
+          break;
+        }
+      }
+    }
+/*
+    tmc_print_microsteps(stepperX);
+    //tmc_print_microsteps(stepperX2);
+    tmc_print_microsteps(stepperY);
+    //tmc_print_microsteps(stepperY2);
+    tmc_print_microsteps(stepperZ);
+    //tmc_print_microsteps(stepperZ2);
+    //tmc_print_microsteps(stepperZ3);
+    tmc_print_microsteps(stepperE0);
+    */
+  }
+
+  void GcodeSuite::M905() {
+
+    TMC2208_n::GCONF_t gconf{0};
+    gconf.pdn_disable = true; // Use UART
+    gconf.mstep_reg_select = true; // Select microsteps with UART
+    gconf.i_scale_analog = false;
+    gconf.en_spreadcycle = 0;
+
+    LOOP_XYZE(i) if (parser.seen(axis_codes[i])) {
+      const uint32_t value = parser.value_ulong();
+
+      switch (i) {
+        case X_AXIS:
+          stepperX.GCONF(gconf.sr);
+          stepperX.CHOPCONF(value);
+          break;
+        case Y_AXIS:
+          stepperY.GCONF(gconf.sr);
+          stepperY.CHOPCONF(value);
+          break;
+        case Z_AXIS:
+          stepperZ.GCONF(gconf.sr);
+          stepperZ.CHOPCONF(value);
+          break;
+        case E0_AXIS:
+          stepperE0.GCONF(gconf.sr);
+          stepperE0.CHOPCONF(value);
+          break;
+      }
+    }
+  }
 
 #endif // HAS_TRINAMIC
