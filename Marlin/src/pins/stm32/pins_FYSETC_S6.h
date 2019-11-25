@@ -42,6 +42,11 @@
 // 
 #define FLASH_EEPROM_EMULATION
 //#define SRAM_EEPROM_EMULATION
+//#define I2C_EEPROM
+#ifdef I2C_EEPROM
+  #undef E2END // Defined in Arduino Core STM32 to be used with EEPROM emulation. This board uses a real EEPROM.
+  #define E2END 0xFFF // 4KB
+#endif
 
 //
 // Limit Switches
