@@ -450,7 +450,9 @@ void scroll_screen(const uint8_t limit, const bool is_menu) {
 #if ENABLED(EEPROM_SETTINGS)
   void lcd_store_settings() {
     bool saved = settings.save();
-    saved = settings.save();
+    #if ENABLED(FLASH_EEPROM_EMULATION)
+      saved = settings.save();
+    #endif
     #if HAS_BUZZER
       ui.completion_feedback(saved);
     #endif
