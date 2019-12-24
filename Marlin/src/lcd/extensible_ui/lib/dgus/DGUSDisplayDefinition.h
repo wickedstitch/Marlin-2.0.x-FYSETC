@@ -122,6 +122,9 @@ constexpr uint16_t VP_MOTOR_LOCK_UNLOK = 0x2130;
 // Power loss recovery
 constexpr uint16_t VP_POWER_LOSS_RECOVERY = 0x2180;
 
+// Settings store , reset
+constexpr uint16_t VP_SETTINGS = 0x2400;
+
 // Firmware version on the boot screen.
 constexpr uint16_t VP_MARLIN_VERSION = 0x3000;
 constexpr uint8_t VP_MARLIN_VERSION_LEN = 16;   // there is more space on the display, if needed.
@@ -182,6 +185,8 @@ constexpr uint16_t VP_SD_FileName1 = 0x3220;
 constexpr uint16_t VP_SD_FileName2 = 0x3240;
 constexpr uint16_t VP_SD_FileName3 = 0x3260;
 constexpr uint16_t VP_SD_FileName4 = 0x3280;
+
+constexpr uint16_t VP_MOVE_OPTION = 0x3400;
 
 // SPs for certain variables...
 // located at 0x5000 and up

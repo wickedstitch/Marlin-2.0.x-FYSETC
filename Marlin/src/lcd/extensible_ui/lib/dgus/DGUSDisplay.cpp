@@ -483,10 +483,26 @@ void DGUSScreenVariableHandler::HandleManualExtrude(DGUS_VP_Variable &var, void 
   skipVP = var.VP;
 }
 
+#if ENABLED(DUGS_UI_MOVE_DIS_OPTION)
+  void DGUSScreenVariableHandler::HandleManualMoveOption(DGUS_VP_Variable &var, void *val_ptr) {
+    DEBUG_ECHOLNPGM("HandleManualMoveOption");
+    *(uint16_t*)var.memadr = swap16(*(uint16_t*)val_ptr);
+  }
+#endif
+
 void DGUSScreenVariableHandler::HandleManualMove(DGUS_VP_Variable &var, void *val_ptr) {
   DEBUG_ECHOLNPGM("HandleManualMove");
 
   int16_t movevalue = swap16(*(uint16_t*)val_ptr);
+  #if ENABLED(DUGS_UI_MOVE_DIS_OPTION)
+    uint16_t movevaluechoosed = *(uint16_t*)var.memadr;
+    if(movevalue>0) {
+      movevalue = movevaluechoosed;
+    }
+    else if(movevalue<0){
+      movevalue = -movevaluechoosed;
+    }
+  #endif
   char axiscode;
   unsigned int speed = 1500;  //FIXME: get default feedrate for manual moves, dont hardcode.
 
@@ -593,6 +609,28 @@ void DGUSScreenVariableHandler::HandleMotorLockUnlok(DGUS_VP_Variable &var, void
     }
   }
 #endif
+
+void DGUSScreenVariableHandler::HandleSettings(DGUS_VP_Variable &var, void *val_ptr) {
+  DEBUG_ECHOLNPGM("HandleSettings");
+  uint16_t value = swap16(*(uint16_t*)val_ptr);
+  switch(value) {
+    case 1:
+      #if ENABLED(PRINTCOUNTER)
+        print_job_timer.initStats();
+      #endif
+      queue.enqueue_now_P(PSTR("M502"));
+      queue.enqueue_now_P(PSTR("M500"));
+      break;
+    case 2:
+      queue.enqueue_now_P(PSTR("M501"));
+      break;
+    case 3:
+      queue.enqueue_now_P(PSTR("M500"));
+      break;
+    default:
+      break;
+  }
+}
 
 void DGUSScreenVariableHandler::UpdateNewScreen(DGUSLCD_Screens newscreen, bool popup) {
   DEBUG_ECHOLNPAIR("SetNewScreen: ", newscreen);
