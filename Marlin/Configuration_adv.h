@@ -952,7 +952,7 @@
    * an option on the LCD screen to continue the print from the last-known
    * point in the file.
    */
-  //#define POWER_LOSS_RECOVERY
+  #define POWER_LOSS_RECOVERY
   #if ENABLED(POWER_LOSS_RECOVERY)
     //#define POWER_LOSS_PIN         44 // Pin to detect power loss
     //#define POWER_LOSS_STATE     HIGH // State of pin indicating power loss
@@ -2801,8 +2801,10 @@
 
   #define DGUS_UPDATE_INTERVAL_MS 500
 
-  #define BOOTSCREEN_TIMEOUT 3000  
-  
+  #define BOOTSCREEN_TIMEOUT 3000
+
+  #define DUGS_UI_MOVE_DIS_OPTION
+
   // Deal with rx overrun situation , ONLY works in AVR now
   //#define DGUS_SERIAL_STATS_RX_BUFFER_OVERRUNS
 #endif
