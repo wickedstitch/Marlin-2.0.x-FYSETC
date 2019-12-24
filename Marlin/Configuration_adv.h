@@ -2787,6 +2787,72 @@
   //#define SERVICE_INTERVAL_3    1 // print hours
 #endif
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * DGUS_LCD
  * Enable in Configuration.h
@@ -2804,6 +2870,7 @@
   #define BOOTSCREEN_TIMEOUT 3000
 
   #define DUGS_UI_MOVE_DIS_OPTION
+  #define DGUS_PREHEAT_UI
 
   // Deal with rx overrun situation , ONLY works in AVR now
   //#define DGUS_SERIAL_STATS_RX_BUFFER_OVERRUNS
