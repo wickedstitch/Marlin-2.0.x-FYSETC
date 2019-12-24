@@ -137,6 +137,8 @@ public:
   #if ENABLED(PIDTEMP) || ENABLED(PIDTEMPBED)
   	// Hook for "Change this temperture PID para"
     static void HandleTemperturePIDChanged(DGUS_VP_Variable &var, void *val_ptr);
+    // Hook for PID autotune
+    static void HandlePIDAutotune(DGUS_VP_Variable &var, void *val_ptr);
   #endif
   // Hook for "Change probe offset z"
   static void HandleProbeOffsetZChanged(DGUS_VP_Variable &var, void *val_ptr);
@@ -150,6 +152,10 @@ public:
   #endif
   // Hook for heater control
   static void HandleHeaterControl(DGUS_VP_Variable &var, void *val_ptr);
+  #if ENABLED(DGUS_PREHEAT_UI)
+    // Hook for preheat
+    static void HandlePreheat(DGUS_VP_Variable &var, void *val_ptr);
+  #endif
 
   #if ENABLED(SDSUPPORT)
     // Callback for VP "Display wants to change screen when there is a SD card"

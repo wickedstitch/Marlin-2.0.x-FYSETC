@@ -122,5 +122,35 @@ namespace ExtUI {
     // This is called when any mesh points are updated
   }
 
+  #if ENABLED(POWER_LOSS_RECOVERY)
+    void OnPowerLossResume() {
+      // This is called when resuming from power loss
+      ScreenHandler.GotoScreen(DGUSLCD_SCREEN_POWER_LOSS);
+    }
+  #endif
+
+
+  #if ENABLED(PIDTEMP) || ENABLED(PIDTEMPBED)
+    void OnPidTuning(result_t rst) {
+      // This is called temperture PID is tuning
+      SERIAL_ECHOLNPAIR("OnPidTuning:",rst);
+      switch(rst) {
+        case PID_BAD_EXTRUDER_NUM:
+          ScreenHandler.setstatusmessagePGM(PSTR(MSG_PID_BAD_EXTRUDER_NUM));
+          break;
+        case PID_TEMP_TOO_HIGH:
+          ScreenHandler.setstatusmessagePGM(PSTR(MSG_PID_TEMP_TOO_HIGH));
+          break;
+        case PID_TUNIGN_TIMEOUT:
+          ScreenHandler.setstatusmessagePGM(PSTR(MSG_PID_TIMEOUT));
+          break;        
+        case PID_DONE:
+          ScreenHandler.setstatusmessagePGM(PSTR(MSG_PID_AUTOTUNE_FINISHED));
+          break;
+      }
+      ScreenHandler.GotoScreen(DGUSLCD_SCREEN_MAIN);
+    }
+  #endif
+
 }
 #endif // DGUS_LCD

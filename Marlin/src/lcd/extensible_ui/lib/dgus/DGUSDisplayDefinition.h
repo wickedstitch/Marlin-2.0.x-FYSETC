@@ -51,6 +51,7 @@ enum DGUSLCD_Screens : uint8_t {
   DGUSLCD_SCREEN_SDFILELIST = 50,
   DGUSLCD_SCREEN_SDPRINTMANIPULATION = 52,
   DGUSLCD_SCREEN_POWER_LOSS = 100,
+  DGUSLCD_SCREEN_PREHEAT=120,
   DGUSLCD_SCREEN_CONFIRM = 240,
   DGUSLCD_SCREEN_KILL = 250, ///< Kill Screen. Must always be 250 (to be able to display "Error wrong LCD Version")
   DGUSLCD_SCREEN_POPUP = 252,  ///< special target, popup screen will also return this code to say "return to previous screen"
@@ -138,8 +139,25 @@ constexpr uint16_t VP_E0_CONTROL = 0x2210;
 //constexpr uint16_t VP_E5_CONTROL = 0x221A;
 constexpr uint16_t VP_BED_CONTROL = 0x221C;
 
+// Preheat
+constexpr uint16_t VP_E0_BED_PREHEAT = 0x2220;
+constexpr uint16_t VP_E1_BED_CONTROL = 0x2222;
+//constexpr uint16_t VP_E2_BED_CONTROL = 0x2224;
+//constexpr uint16_t VP_E3_BED_CONTROL = 0x2226;
+//constexpr uint16_t VP_E4_BED_CONTROL = 0x2228;
+//constexpr uint16_t VP_E5_BED_CONTROL = 0x222A;
+
 // Settings store , reset
 constexpr uint16_t VP_SETTINGS = 0x2400;
+
+// PID autotune
+constexpr uint16_t VP_PID_AUTOTUNE_E0 = 0x2410;
+//constexpr uint16_t VP_PID_AUTOTUNE_E1 = 0x2412;
+//constexpr uint16_t VP_PID_AUTOTUNE_E2 = 0x2414;
+//constexpr uint16_t VP_PID_AUTOTUNE_E3 = 0x2416;
+//constexpr uint16_t VP_PID_AUTOTUNE_E4 = 0x2418;
+//constexpr uint16_t VP_PID_AUTOTUNE_E5 = 0x241A;
+constexpr uint16_t VP_PID_AUTOTUNE_BED = 0x2420;
 
 // Firmware version on the boot screen.
 constexpr uint16_t VP_MARLIN_VERSION = 0x3000;
