@@ -156,6 +156,12 @@ public:
     // Hook for preheat
     static void HandlePreheat(DGUS_VP_Variable &var, void *val_ptr);
   #endif
+  #if ENABLED(DGUS_FILAMENT_LOADUNLOAD)
+    // Hook for filament load and unload filament option
+    static void HandleFilamentOption(DGUS_VP_Variable &var, void *val_ptr);
+    // Hook for filament load and unload
+    static void HandleFilamentLoadUnload(DGUS_VP_Variable &var);
+  #endif
 
   #if ENABLED(SDSUPPORT)
     // Callback for VP "Display wants to change screen when there is a SD card"
@@ -169,7 +175,9 @@ public:
     /// User hit the pause, resume or abort button.
     static void DGUSLCD_SD_ResumePauseAbort(DGUS_VP_Variable &var, void *val_ptr);
     /// User confirmed the abort action
-    static void DGUSLCD_SD_ReallyAbort(DGUS_VP_Variable &var, void *val_ptr);
+    static void DGUSLCD_SD_ReallyAbort(DGUS_VP_Variable &var, void *val_ptr);    
+    /// User hit the tune button
+    static void DGUSLCD_SD_PrintTune(DGUS_VP_Variable &var, void *val_ptr);
     /// Send a single filename to the display.
     static void DGUSLCD_SD_SendFilename(DGUS_VP_Variable &var);
     /// Marlin informed us that a new SD has been inserted.

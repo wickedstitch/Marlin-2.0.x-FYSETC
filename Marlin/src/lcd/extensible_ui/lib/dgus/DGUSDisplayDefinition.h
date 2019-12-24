@@ -52,8 +52,14 @@ enum DGUSLCD_Screens : uint8_t {
   DGUSLCD_SCREEN_SDPRINTMANIPULATION = 52,
   DGUSLCD_SCREEN_POWER_LOSS = 100,
   DGUSLCD_SCREEN_PREHEAT=120,
+  DGUSLCD_SCREEN_UTILITY=110,
+  DGUSLCD_SCREEN_FILAMENT_HEATING=146,
+  DGUSLCD_SCREEN_FILAMENT_LOADING=148,
+  DGUSLCD_SCREEN_FILAMENT_UNLOADING=158,
+  DGUSLCD_SCREEN_SDPRINTTUNE = 170,
   DGUSLCD_SCREEN_CONFIRM = 240,
   DGUSLCD_SCREEN_KILL = 250, ///< Kill Screen. Must always be 250 (to be able to display "Error wrong LCD Version")
+  DGUSLCD_SCREEN_WAITING = 251,
   DGUSLCD_SCREEN_POPUP = 252,  ///< special target, popup screen will also return this code to say "return to previous screen"
   DGUSLDC_SCREEN_UNUSED = 255
 };
@@ -103,6 +109,7 @@ constexpr uint16_t VP_SD_FileSelectConfirm = 0x2024; // (This is a virtual VP an
 
 constexpr uint16_t VP_SD_ResumePauseAbort = 0x2026; // Resume(Data=0), Pause(Data=1), Abort(Data=2) SD Card prints
 constexpr uint16_t VP_SD_AbortPrintConfirmed = 0x2028; // Abort print confirmation (virtual, will be injected by the confirm dialog)
+constexpr uint16_t VP_SD_Print_Setting = 0x2040;
 constexpr uint16_t VP_SD_Print_LiveAdjustZ = 0x2050; // Data: 0 down, 1 up
 
 // Controls for movement (we can't use the incremental / decremental feature of the display at this feature works only with 16 bit values
@@ -146,6 +153,10 @@ constexpr uint16_t VP_E1_BED_CONTROL = 0x2222;
 //constexpr uint16_t VP_E3_BED_CONTROL = 0x2226;
 //constexpr uint16_t VP_E4_BED_CONTROL = 0x2228;
 //constexpr uint16_t VP_E5_BED_CONTROL = 0x222A;
+
+// Filament load and unload
+constexpr uint16_t VP_E0_FILAMENT_LOAD_UNLOAD = 0x2300;
+constexpr uint16_t VP_E1_FILAMENT_LOAD_UNLOAD = 0x2302;
 
 // Settings store , reset
 constexpr uint16_t VP_SETTINGS = 0x2400;
