@@ -40,6 +40,9 @@
 #include "../../../../sd/cardreader.h"
 #include "../../../../libs/duration_t.h"
 #include "../../../../module/printcounter.h"
+#if ENABLED(POWER_LOSS_RECOVERY)
+  #include "../../../../feature/power_loss_recovery.h"
+#endif
 
 // Preamble... 2 Bytes, usually 0x5A 0xA5, but configurable
 constexpr uint8_t DGUS_HEADER1 = 0x5A;
@@ -565,6 +568,32 @@ void DGUSScreenVariableHandler::HandleManualMove(DGUS_VP_Variable &var, void *va
   return;
 }
 
+void DGUSScreenVariableHandler::HandleMotorLockUnlok(DGUS_VP_Variable &var, void *val_ptr) {
+  DEBUG_ECHOLNPGM("HandleMotorLockUnlok");
+
+  char buf[4];
+  int16_t lock = swap16(*(uint16_t*)val_ptr);
+  lock ? strcpy(buf,"M18") : strcpy(buf,"M17");
+
+  //DEBUG_ECHOPAIR(" ", buf);
+  queue.enqueue_one_now(buf);
+}
+
+#if ENABLED(POWER_LOSS_RECOVERY)
+  void DGUSScreenVariableHandler::HandlePowerLossRecovery(DGUS_VP_Variable &var, void *val_ptr) {
+    uint16_t value = swap16(*(uint16_t*)val_ptr);
+    if(value) {
+      queue.inject_P(PSTR("M1000"));
+      ScreenHandler.GotoScreen(DGUSLCD_SCREEN_SDPRINTMANIPULATION);
+    }
+    else {
+      card.removeJobRecoveryFile();
+      card.autostart_index = 0;
+      ScreenHandler.GotoScreen(DGUSLCD_SCREEN_STATUS);
+    }
+  }
+#endif
+
 void DGUSScreenVariableHandler::UpdateNewScreen(DGUSLCD_Screens newscreen, bool popup) {
   DEBUG_ECHOLNPAIR("SetNewScreen: ", newscreen);
 
@@ -647,7 +676,10 @@ void DGUSDisplay::loop() {
 
 void DGUSDisplay::InitDisplay() {
   dgusserial.begin(DGUS_BAUDRATE);
-
+  
+  #if ENABLED(POWER_LOSS_RECOVERY)
+    if(!recovery.valid()) 
+  #endif
   RequestScreen(
     #if ENABLED(SHOW_BOOTSCREEN)
       DGUSLCD_SCREEN_BOOT
@@ -704,7 +736,12 @@ bool DGUSScreenVariableHandler::loop() {
   }
 
   #if ENABLED(SHOW_BOOTSCREEN)
-    static bool booted = false;
+    static bool booted = false;    
+    #if ENABLED(POWER_LOSS_RECOVERY)
+      if (!booted && recovery.valid()) {
+        booted = true;
+      }
+    #endif
     if (!booted && ELAPSED(ms, BOOTSCREEN_TIMEOUT)) {
       booted = true;
       GotoScreen(DGUSLCD_SCREEN_MAIN);
