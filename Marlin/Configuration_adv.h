@@ -2915,6 +2915,8 @@
   #define CALIBRATION_EXTRA_HEIGHT 30
 #endif
 
+#define FIRST_LAYER_CAL
+
 // @section develop
 
 /**
