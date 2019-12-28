@@ -1426,7 +1426,9 @@ void DGUSDisplay::ProcessRx() {
           //DEBUG_ECHOPAIR(" vp=", vp, " dlen=", dlen);
           DGUS_VP_Variable ramcopy;
           if (populate_VPVar(vp, &ramcopy)) {
-            if (!(dlen == ramcopy.size || (dlen == 2 && ramcopy.size == 1)))
+            if (!(dlen == ramcopy.size || \
+                (dlen == 2 && ramcopy.size == 1) ||\
+                ramcopy.memadr == nullptr))
               DEBUG_ECHOLNPGM("SIZE MISMATCH");
             else if (ramcopy.set_by_display_handler) {
               ramcopy.set_by_display_handler(ramcopy, &tmp[3]);
