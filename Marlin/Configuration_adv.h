@@ -952,7 +952,7 @@
    * an option on the LCD screen to continue the print from the last-known
    * point in the file.
    */
-  #define POWER_LOSS_RECOVERY
+  //#define POWER_LOSS_RECOVERY
   #if ENABLED(POWER_LOSS_RECOVERY)
     //#define POWER_LOSS_PIN         44 // Pin to detect power loss
     //#define POWER_LOSS_STATE     HIGH // State of pin indicating power loss
@@ -2787,85 +2787,19 @@
   //#define SERVICE_INTERVAL_3    1 // print hours
 #endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * DGUS_LCD
  * Enable in Configuration.h
  */
 #if ENABLED(DGUS_LCD)
 
-  #define DGUS_SERIAL_PORT 2
+  #define DGUS_SERIAL_PORT 3
   #define DGUS_BAUDRATE 115200
 
   #define DGUS_RX_BUFFER_SIZE 128
   #define DGUS_TX_BUFFER_SIZE 48
 
-  #define DGUS_UPDATE_INTERVAL_MS 500
+  #define DGUS_UPDATE_INTERVAL_MS 300
 
   #define BOOTSCREEN_TIMEOUT 3000
 
@@ -2876,7 +2810,7 @@
     #define DGUS_FILAMENT_LOADUNLOAD
     #if ENABLED(DGUS_FILAMENT_LOADUNLOAD)
       #define DGUS_FILAMENT_PURGE_LENGTH 10
-      #define DGUS_FILAMENT_LOAD_LENGTH_PER_TIME 0.5 // Need to tweak according DGUS_UPDATE_INTERVAL_MS value
+      #define DGUS_FILAMENT_LOAD_LENGTH_PER_TIME 0.3 // Need to tweak according DGUS_UPDATE_INTERVAL_MS value
     #endif 
 
     #define DGUS_UI_WAITING // It may need a waiting screen between some screens jumping
@@ -2893,13 +2827,13 @@
     #define DGUS_FILAMENT_LOADUNLOAD
     #if ENABLED(DGUS_FILAMENT_LOADUNLOAD)
       #define DGUS_FILAMENT_PURGE_LENGTH 10
-      #define DGUS_FILAMENT_LOAD_LENGTH_PER_TIME 0.5 // Need to tweak according DGUS_UPDATE_INTERVAL_MS value
+      #define DGUS_FILAMENT_LOAD_LENGTH_PER_TIME 0.3 // Need to tweak according DGUS_UPDATE_INTERVAL_MS value
     #endif
         
     #define DGUS_UI_WAITING // It may need a waiting screen between screen jumping
     #if ENABLED(DGUS_UI_WAITING)
       #define DGUS_UI_WAITING_STATUS 10
-      #define DGUS_UI_WAITING_STATUS_PERIOD 8 // Increase to slower waiting status looping
+      #define DGUS_UI_WAITING_STATUS_PERIOD 2 // Increase to slower waiting status looping
     #endif
 
   #endif
