@@ -43,7 +43,7 @@
  *   M421 I<xindex> J<yindex> Q<offset>
  */
 void GcodeSuite::M421() {
-  int8_t ix = parser.intval('I', -1), iy = parser.intval('J', -1);
+  uint8_t ix = parser.intval('I', -1), iy = parser.intval('J', -1);
   const bool hasI = ix >= 0,
              hasJ = iy >= 0,
              hasZ = parser.seen('Z'),

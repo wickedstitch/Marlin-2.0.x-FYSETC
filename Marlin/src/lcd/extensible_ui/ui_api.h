@@ -307,6 +307,7 @@ namespace ExtUI {
   void onLoadSettings(const char *);
   void onConfigurationStoreWritten(bool success);
   void onConfigurationStoreRead(bool success);
+  void onMeshUpdate(const int8_t xpos, const int8_t ypos, const float zval);
   #if ENABLED(POWER_LOSS_RECOVERY)
     void OnPowerLossResume();
   #endif
