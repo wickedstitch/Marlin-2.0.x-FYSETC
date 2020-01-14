@@ -165,70 +165,81 @@
 //
 // LCD / Controller
 //
-
-#define BEEPER_PIN         PC9
-#define SD_DETECT_PIN      PB10
-
-#if ENABLED(FYSETC_MINI_12864)
-  //
-  // See https://wiki.fysetc.com/Mini12864_Panel/?fbclid=IwAR1FyjuNdVOOy9_xzky3qqo_WeM5h-4gpRnnWhQr_O1Ef3h0AFnFXmCehK8
-  //
-  #define DOGLCD_A0        PD2
-  #define DOGLCD_CS        PC11
-
-  //#define LCD_BACKLIGHT_PIN -1
-  //#define KILL_PIN          -1
-
-  #define LCD_RESET_PIN    PC10 // Must be high or open for LCD to operate normally.
-                                // Seems to work best if left open.
-
-  #if EITHER(FYSETC_MINI_12864_1_2, FYSETC_MINI_12864_2_0)
-    #ifndef RGB_LED_R_PIN
-      #define RGB_LED_R_PIN PC12
-    #endif
-    #ifndef RGB_LED_G_PIN
-      #define RGB_LED_G_PIN PD0
-    #endif
-    #ifndef RGB_LED_B_PIN
-      #define RGB_LED_B_PIN PD1
-    #endif
-  #elif ENABLED(FYSETC_MINI_12864_2_1)
-    #define NEOPIXEL_PIN    PC12
-  #endif
-
-#elif HAS_GRAPHICAL_LCD
-  #define LCD_PINS_RS      PD2
-  #define LCD_PINS_ENABLE  PC11
-  #define LCD_PINS_D4      PC10
-  #define LCD_PINS_D5      PC12
-  #define LCD_PINS_D6      PD0
-  #define LCD_PINS_D7      PD1
-
-  #if ENABLED(MKS_MINI_12864)
-    #define DOGLCD_CS      PC12
-    #define DOGLCD_A0      PD0
-  #endif
-  
-#endif
-
-#if ENABLED(NEWPANEL)
-  #define BTN_EN1          PC6
-  #define BTN_EN2          PC7
+#if HAS_SPI_LCD
+  #define BEEPER_PIN       PC9
   #define BTN_ENC          PA8
-#endif
 
-// Alter timing for graphical display
-#if HAS_GRAPHICAL_LCD
-  #ifndef ST7920_DELAY_1
-    #define ST7920_DELAY_1 DELAY_NS(96)
+  #if ENABLED(CR10_STOCKDISPLAY)
+    #define LCD_PINS_RS    PD0
+
+    #define BTN_EN1        PC11
+    #define BTN_EN2        PC10
+
+    #define LCD_PINS_ENABLE PD1
+    #define LCD_PINS_D4    PC12
+
+    // CR10_Stock Display needs a different delay setting on SKR PRO v1.1, so undef it here.
+    // It will be defined again at the #HAS_GRAPHICAL_LCD section below.
+    #undef ST7920_DELAY_1
+    #undef ST7920_DELAY_2
+    #undef ST7920_DELAY_3
+
+  #else
+
+    #define LCD_PINS_RS    PD2
+
+    #define BTN_EN1        PC6
+    #define BTN_EN2        PC7
+    #define SD_DETECT_PIN  PB10
+
+    #define LCD_SDSS       PA4
+
+    #define LCD_PINS_ENABLE PC11
+    #define LCD_PINS_D4    PC10
+
+    #if ENABLED(FYSETC_MINI_12864)    
+     // See https://wiki.fysetc.com/Mini12864_Panel
+      #define DOGLCD_CS    PC11
+      #define DOGLCD_A0    PD2
+      //#define LCD_BACKLIGHT_PIN -1
+      #define LCD_RESET_PIN PC10   // Must be high or open for LCD to operate normally.
+      #if EITHER(FYSETC_MINI_12864_1_2, FYSETC_MINI_12864_2_0)
+        #ifndef RGB_LED_R_PIN
+          #define RGB_LED_R_PIN PC12
+        #endif
+        #ifndef RGB_LED_G_PIN
+          #define RGB_LED_G_PIN PD0
+        #endif
+        #ifndef RGB_LED_B_PIN
+          #define RGB_LED_B_PIN PD1
+        #endif
+      #elif ENABLED(FYSETC_MINI_12864_2_1)
+        #define NEOPIXEL_PIN    PC12
+      #endif
+    #endif // !FYSETC_MINI_12864
+
+    #if ENABLED(ULTIPANEL)
+      #define LCD_PINS_D5  PC12
+      #define LCD_PINS_D6  PD0
+      #define LCD_PINS_D7  PD1
+    #endif
+
   #endif
-  #ifndef ST7920_DELAY_2
-    #define ST7920_DELAY_2 DELAY_NS(48)
+
+  // Alter timing for graphical display
+  #if HAS_GRAPHICAL_LCD
+    #ifndef ST7920_DELAY_1
+      #define ST7920_DELAY_1 DELAY_NS(96)
+    #endif
+    #ifndef ST7920_DELAY_2
+      #define ST7920_DELAY_2 DELAY_NS(48)
+    #endif
+    #ifndef ST7920_DELAY_3
+      #define ST7920_DELAY_3 DELAY_NS(600)
+    #endif
   #endif
-  #ifndef ST7920_DELAY_3
-    #define ST7920_DELAY_3 DELAY_NS(600)
-  #endif
-#endif
+
+#endif // HAS_SPI_LCD
 
 #ifndef RGB_LED_R_PIN
   #define RGB_LED_R_PIN    PB6
@@ -242,4 +253,3 @@
 #ifndef RGB_LED_W_PIN
   #define RGB_LED_W_PIN    -1
 #endif
-
