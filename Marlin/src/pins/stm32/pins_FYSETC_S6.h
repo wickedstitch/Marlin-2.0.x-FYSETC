@@ -59,6 +59,14 @@
 #define Z_MAX_PIN          PA3
 
 //
+// Filament Sensor
+// share with X_MAX_PIN
+//
+#ifndef FIL_RUNOUT_PIN
+  #define FIL_RUNOUT_PIN   PA1
+#endif
+
+//
 // Servos
 // share with Z_MAX_PIN
 //
