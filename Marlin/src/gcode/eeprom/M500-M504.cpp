@@ -30,6 +30,7 @@
  */
 void GcodeSuite::M500() {
   (void)settings.save();
+  (void)settings.save();
 }
 
 /**
